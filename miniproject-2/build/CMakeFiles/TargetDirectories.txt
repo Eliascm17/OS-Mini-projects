@@ -1,0 +1,4 @@
+/home/elias/Desktop/OS/miniproject-2/build/CMakeFiles/rebuild_cache.dir
+/home/elias/Desktop/OS/miniproject-2/build/CMakeFiles/edit_cache.dir
+/home/elias/Desktop/OS/miniproject-2/build/CMakeFiles/shell.dir
+/home/elias/Desktop/OS/miniproject-2/build/CMakeFiles/test.dir
