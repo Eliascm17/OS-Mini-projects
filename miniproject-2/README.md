@@ -55,3 +55,36 @@ Your assignment will be graded according to the following criteria:
 - **25 points** for the correct usage of and error handling for the `wait` system call.
 - **25 points** for the correct and appropriate usage of the `exit` system call.
 
+----
+<br/>
+
+## For running shell.c
+* You may need to delete and rebuild the build directory
+    
+    1. delete build folder
+    2. ```bash 
+       mkdir build
+       ```
+    3. ```bash 
+       cd build
+       ```
+    4. ```bash 
+       cmake ..
+       ```
+    5. ```bash 
+       cd ..
+       ```
+
+* Then...
+    
+    1. ```bash 
+       make shell
+       ```
+    2. ```bash 
+       ./shell
+       ```
+
+
+
+
+
