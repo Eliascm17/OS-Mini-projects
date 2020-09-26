@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/elias/Desktop/OS/miniproject-2/main.c" "/home/elias/Desktop/OS/miniproject-2/build/CMakeFiles/shell.dir/main.c.o"
-  "/home/elias/Desktop/OS/miniproject-2/shell.c" "/home/elias/Desktop/OS/miniproject-2/build/CMakeFiles/shell.dir/shell.c.o"
+  "/home/elias/Desktop/git/OS-Mini-projects/miniproject-2/main.c" "/home/elias/Desktop/git/OS-Mini-projects/miniproject-2/build/CMakeFiles/shell.dir/main.c.o"
+  "/home/elias/Desktop/git/OS-Mini-projects/miniproject-2/shell.c" "/home/elias/Desktop/git/OS-Mini-projects/miniproject-2/build/CMakeFiles/shell.dir/shell.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

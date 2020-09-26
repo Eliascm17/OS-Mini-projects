@@ -31,33 +31,27 @@ void execute(char *const args[])
   else if (c_pid == 0)
   {
     /*CHILD PROCESS*/
+    execvp(args[0], args);
+    printf("*** Command not found: %s\n", args[0]);
 
-    // Failed execvp() function call
-    if (execvp(args[0], args) < 0)
-    {
-      perror(args[0]);
-      exit(1);
-    }
-    else
-    {
-      // Successfull execvp() function call
-      execvp(args[0], args);
-      printf("a;lsdkjfha;lskdjnfa;sdkjfna");
-      exit(0);
-    }
+    exit(1);
   }
   else
   {
     /*PARENT PROCESS*/
-    pid_t wpid = waitpid(c_pid, &stat_loc, 0);
-    if (!WIFEXITED(stat_loc))
+    wait(&stat_loc);
+    if (WIFEXITED(stat_loc))
     {
-      printf("*** Command exited successfully with exit status %d\n", WIFEXITED(stat_loc));
-    }
-    else
-    {
-      printf("Command exited with %d", i);
-      printf("Child: %d", wpid);
+      if (!WEXITSTATUS(stat_loc))
+      {
+        // printf("*** WIFEXITED: %d\n", WIFEXITED(stat_loc));
+        // printf("*** WEXITSTATUS: %d\n", WEXITSTATUS(stat_loc));
+        printf("*** Command exited successfully\n");
+      }
+      else
+      {
+        printf("*** Command exited with %d\n", i);
+      }
     }
   }
 }
