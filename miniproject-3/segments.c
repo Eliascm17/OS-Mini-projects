@@ -16,6 +16,14 @@ char data2[] = "data 2";
 char bss1[6];
 char bss2[6];
 
+void stack() {
+    char stack1[8] = "stack 1";
+    char stack2[8] = "stack 2";
+
+    stack_ptr_1 = stack1;
+    stack_ptr_2 = stack2;
+}
+
 
 void init_pointers() {
 
@@ -43,9 +51,15 @@ void init_pointers() {
     strcpy(heap_ptr_1, "heap 1");
     heap_ptr_2 = malloc(sizeof(char *));
     strcpy(heap_ptr_2, "heap 2");
+
+    stack();
 }
 
 void free_pointers() {
+    
     free(heap_ptr_1);
     free(heap_ptr_2);
+
 }
+
+
