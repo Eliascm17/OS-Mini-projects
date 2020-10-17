@@ -1,0 +1,3 @@
+/home/elias/Desktop/git/OS-Mini-projects/miniproject-3/build/CMakeFiles/rebuild_cache.dir
+/home/elias/Desktop/git/OS-Mini-projects/miniproject-3/build/CMakeFiles/main.dir
+/home/elias/Desktop/git/OS-Mini-projects/miniproject-3/build/CMakeFiles/edit_cache.dir

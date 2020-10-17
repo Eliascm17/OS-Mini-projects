@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/elias/Desktop/git/OS-Mini-projects/miniproject-3/segments.c
+segments.h
+/home/elias/Desktop/git/OS-Mini-projects/miniproject-3/segments.h
+malloc.h
+-
+string.h
+-
+
+/home/elias/Desktop/git/OS-Mini-projects/miniproject-3/segments.h
+
