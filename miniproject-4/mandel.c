@@ -143,10 +143,10 @@ int main(int argc, char *argv[])
     bitmap_reset(bm, MAKE_RGBA(0, 0, 255, 0));
 
     // Compute the Mandelbrot image
-    struct thread_args args[threads];
+    struct thread_args args[threads-1];
     pthread_t tid[threads];
 
-    int rowIntervals[threads-1];
+    int rowIntervals[threads];
 
     // pthread_attr_t attr;
     for (int i = 0; i < threads; i++)
