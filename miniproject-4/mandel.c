@@ -10,6 +10,8 @@
 int iteration_to_color(int i, int max);
 int iterations_at_point(double x, double y, int max);
 
+
+//defining the struct thread_args
 struct thread_args
 {
     struct bitmap *bm;
@@ -25,7 +27,7 @@ struct thread_args
 
 void *compute_image(struct thread_args *args)
 {
-
+    //destructing the struct and assigning those values to variables used in the function
     struct bitmap *bm = args->bm;
     double xmin = args->xmin;
     double xmax = args->xmax;
@@ -93,6 +95,7 @@ int main(int argc, char *argv[])
     int image_width = 500;
     int image_height = 500;
     int max = 1000;
+    //defining the default number of threads to 1
     int threads = 1;
 
     // For each command line argument given,
@@ -120,6 +123,7 @@ int main(int argc, char *argv[])
         case 'm':
             max = atoi(optarg);
             break;
+        //insert new case statement for the number of threads needed
         case 'n':
             threads = atoi(optarg);
             break;
@@ -142,32 +146,38 @@ int main(int argc, char *argv[])
     // Fill it with a dark blue, for debugging
     bitmap_reset(bm, MAKE_RGBA(0, 0, 255, 0));
 
-    // Compute the Mandelbrot image
-    struct thread_args args[threads-1];
+    //create an array of thread_args on length threads
+    struct thread_args args[threads];
+
+    //defining an array of thread ids for each slice of the image that will be rendered
     pthread_t tid[threads];
 
-    int rowIntervals[threads];
+    //defining an empty array to keep track of threading intervals
+    int intervals[threads];
 
-    // pthread_attr_t attr;
+    // a for loop. one for each thread that will render each of its own slices of the image
     for (int i = 0; i < threads; i++)
     {
-
-        int rowStart = rowIntervals[i];
-        int rowEnd = rowIntervals[i+1];
-
+        //defining the interval for which the thread  is rendering of the image
+        int start = intervals[i];
+        int end = intervals[i+1];
+        
+        //g assigning variable to the struct args
         args[i].bm = bm;
         args[i].xmin = xcenter - scale;
         args[i].xmax = xcenter + scale;
         args[i].ymin = ycenter - scale;
         args[i].ymax = ycenter + scale;
         args[i].max = max;
-        args[i].begin = rowStart;
-        args[i].end = rowEnd;
+        args[i].begin = start;
+        args[i].end = end;
 
+        //creating 1 of n threads using the compute_image function as the routine
         pthread_create(&tid[i], NULL, compute_image, (void *)&args[i]);
 
     }
 
+    // now joining all of the threads/parts of the image back together in a for loop
     for(int i = 0; i < threads; i++)
     {
         pthread_join(tid[i], NULL);
@@ -182,11 +192,6 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-
-/*
-Compute an entire Mandelbrot image, writing each point to the given bitmap.
-Scale the image to the range (xmin-xmax,ymin-ymax), limiting iterations to "max"
-*/
 
 /*
 Return the number of iterations at point x, y
@@ -221,6 +226,7 @@ Here, we just scale to gray with a maximum of imax.
 Modify this function to make more interesting colors.
 */
 
+//nefarious blue/green coloring of the image. IT SO GREEEN
 int iteration_to_color(int i, int max)
 {
     int blueR = 44 * i / max;
