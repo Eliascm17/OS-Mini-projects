@@ -9,27 +9,30 @@
 
 int iteration_to_color(int i, int max);
 int iterations_at_point(double x, double y, int max);
-// void compute_image(struct bitmap* bm, double xmin, double xmax, double ymin, double ymax, int max);
-struct thread_args {
-    struct bitmap* bm;
+
+struct thread_args
+{
+    struct bitmap *bm;
     double xmin;
     double xmax;
     double ymin;
     double ymax;
     int max;
     int threads;
+    int begin;
+    int end;
 };
 
 void *compute_image(struct thread_args *args)
 {
 
-    struct bitmap* bm = args->bm;
+    struct bitmap *bm = args->bm;
     double xmin = args->xmin;
     double xmax = args->xmax;
     double ymin = args->ymin;
     double ymax = args->ymax;
     int max = args->max;
-    int threads = args->threads; 
+    int threads = args->threads;
 
     int i, j;
 
@@ -140,30 +143,35 @@ int main(int argc, char *argv[])
     bitmap_reset(bm, MAKE_RGBA(0, 0, 255, 0));
 
     // Compute the Mandelbrot image
-    pthread_t tid;
-    pthread_attr_t attr;
-    struct thread_args *args;
+    struct thread_args args[threads];
+    pthread_t tid[threads];
 
-    int xmin = xcenter - scale;
-    int xmax = xcenter + scale;
-    int ymin = ycenter - scale;
-    int ymax = ycenter + scale;
+    int rowIntervals[threads-1];
 
-    args->bm=bm;
-    args->xmin=xmin;
-    args->xmax=xmax;
-    args->ymin=ymin;
-    args->ymax=ymax;
-    args->max=max;
-    args->threads=threads;
+    // pthread_attr_t attr;
+    for (int i = 0; i < threads; i++)
+    {
 
-    pthread_attr_init(&attr);
+        int rowStart = rowIntervals[i];
+        int rowEnd = rowIntervals[i+1];
 
-    for(int i = 0; i < threads; i++){
-        pthread_create(&tid, &attr, compute_image, args);
+        args[i].bm = bm;
+        args[i].xmin = xcenter - scale;
+        args[i].xmax = xcenter + scale;
+        args[i].ymin = ycenter - scale;
+        args[i].ymax = ycenter + scale;
+        args[i].max = max;
+        args[i].begin = rowStart;
+        args[i].end = rowEnd;
+
+        pthread_create(&tid[i], NULL, compute_image, (void *)&args[i]);
+
     }
 
-    pthread_join(tid, NULL);
+    for(int i = 0; i < threads; i++)
+    {
+        pthread_join(tid[i], NULL);
+    }
 
     // Save the image in the stated file.
     if (!bitmap_save(bm, outfile))
@@ -179,32 +187,6 @@ int main(int argc, char *argv[])
 Compute an entire Mandelbrot image, writing each point to the given bitmap.
 Scale the image to the range (xmin-xmax,ymin-ymax), limiting iterations to "max"
 */
-
-// void compute_image(struct bitmap* bm, double xmin, double xmax, double ymin, double ymax, int max)
-// {
-//     int i, j;
-
-//     int width = bitmap_width(bm);
-//     int height = bitmap_height(bm);
-
-//     // For every pixel in the image...
-
-//     for (j = 0; j < height; j++) {
-
-//         for (i = 0; i < width; i++) {
-
-//             // Determine the point in x,y space for that pixel.
-//             double x = xmin + i * (xmax - xmin) / width;
-//             double y = ymin + j * (ymax - ymin) / height;
-
-//             // Compute the iterations at that point.
-//             int iters = iterations_at_point(x, y, max);
-
-//             // Set the pixel in the bitmap.
-//             bitmap_set(bm, i, j, iters);
-//         }
-//     }
-// }
 
 /*
 Return the number of iterations at point x, y
